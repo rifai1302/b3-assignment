@@ -1,6 +1,7 @@
+
+
 const axios = require('axios')
-import io from 'socket.io-client';
-let socket
+//import { useEffect, useState } from 'react';
 
 const gitlabApiBaseUrl = 'https://gitlab.lnu.se/api/v4';
 const repoId = '31808';
@@ -35,8 +36,30 @@ async function fetchIssues() {
   }
 }
 
+async function socket() {
+  "use server"
+  const newSocket = new WebSocket('ws://localhost:3000');
+    
+    newSocket.onopen = () => {
+      console.log('WebSocket connection opened');
+    };
+
+    newSocket.onmessage = (event) => {
+      console.log('Received:', event.data);
+      // Handle the WebSocket message here
+    };
+
+    newSocket.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    return () => {
+      newSocket.close();
+    };
+}
 
 export default async function Tracker() {
+  socket();
     const returner = []
     let issues = await fetchIssues();
     if (issues !== undefined){
@@ -45,15 +68,6 @@ export default async function Tracker() {
         returner.push(temp)
       }
     }
-    
-    //await fetch('./api/socket')
-    socket = io()
-    socket.on('connect', () => {
-      console.log('connected')
-    })
-    socket.on('gitLabIssue', (issue) => {
-      console.log(issue)
-    });
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
