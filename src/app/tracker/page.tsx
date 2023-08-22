@@ -38,7 +38,7 @@ async function fetchIssues() {
 
 async function socket() {
   "use server"
-  const newSocket = new WebSocket('ws://localhost:3000');
+  const newSocket = new WebSocket('ws://localhost:3001');
     
     newSocket.onopen = () => {
       console.log('WebSocket connection opened');
