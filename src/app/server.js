@@ -21,6 +21,10 @@ app.post('/gitlab-webhook', (req, res) => {
           client.send("issue received");
         }
       });
+    res.status(200).send('Issue event received and processed.');
+  } else {
+    res.status(400).send('Invalid event type.');
+  }
 });
 
 
