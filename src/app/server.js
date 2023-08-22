@@ -21,10 +21,6 @@ app.post('/gitlab-webhook', (req, res) => {
           client.send("issue received");
         }
       });
-    res.status(200).send('Issue event received and processed.');
-  } else {
-    res.status(400).send('Invalid event type.');
-  }
 });
 
 
@@ -34,6 +30,6 @@ server.on('upgrade', (request, socket, head) => {
   });
 });
 
-server.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is listening on port ${process.env.PORT || 3000}`);
+server.listen(process.env.WEBSOCKET_PORT || 3001, () => {
+  console.log(`Server is listening on port ${process.env.WEBSOCKET_PORT || 3001}`);
 });
